@@ -82,11 +82,59 @@ _instance->_handler->handleDebug(event);
 
 - Isso permite que o comportamento do logger mude em tempo de execução, sem alterar seu código principal.
 
+### Exemplo de uso que está na própria main.cpp
+```cpp
+class ConsoleHandler : public LogHandler {
+public:
+	void handleDebug(t_event e) { std::cout << "[DEBUG] " << e.message << std::endl; }
+	void handleInfo(t_event e) { std::cout << "[INFO] " << e.message << std::endl; }
+	void handleWarning(t_event e) { std::cout << "[WARNING] " << e.message << std::endl; }
+	void handleError(t_event e) { std::cerr << "[ERROR] " << e.message << std::endl; }
+};
+```
+
+```csharp
+Saída:
+[INFO] Application started.
+[ERROR] Unexpected condition.
+```
+
+```cpp
+int main() {
+	ConsoleHandler console;
+	Logger::initializeLogger(INFO, &console);
+
+	Logger::info("Application started.");
+	Logger::debug("This debug will not appear.");
+	Logger::error("Unexpected condition.");
+}
+```
+
+### Extensibilidade
+Para criar uma nova estratégia de log, basta implementar a interface LogHandler:
+```cpp
+class FileHandler : public LogHandler {
+	std::ofstream file;
+public:
+	FileHandler() : file("app.log", std::ios::app) {}
+	void handleInfo(t_event e) { file << "[INFO] " << e.message << std::endl; }
+	// ...
+};
+```
+
+Ponto de observação importantíssimo: Nenhuma alteração é necessária na classe Logger, já que toda a sua construção é modular e se baseia em design patterns que delegam funções. Em outras palavras, partes do código chamam podem chamar o logger, mas o logger não precisa ser alterado. 
+
+### Por que escolhi fazer em c++98? 
+Porque além de ser a segunda linguagem que estou aprendendo na minha formação na 42Rio, depois de C, achei que seria um bom desafio desenvolver um logger sob as restrições do padrão C++98, com o propósito de aprofundar o entendimento sobre: 
+
+- Implementação manual de Singletons (sem std::unique_ptr ou std::mutex)
+- Uso de classes abstratas e virtual dispatch 
+- Desacoplamento por interfaces puras
+- Design Pattern Strategy aplicado de forma explícita
+
 ### 📚 Referências
 
 - Design Patterns: Elements of Reusable Object-Oriented Software — Gamma et al. (GoF)
 - Effective C++ — Scott Meyers 
 - Documentação C++98 ISO/IEC 14882:1998(E)
 - The Linux Programming Interface
-
-
