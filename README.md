@@ -139,6 +139,6 @@ Porque além de ser a segunda linguagem que estou aprendendo na minha formação
 - Documentação C++98 ISO/IEC 14882:1998(E)
 - The Linux Programming Interface
 
-> 💡 Este logger foi projetado e implementado sob autoria de **Luara Raggio**
+> Esse logger foi projetado e implementado sob autoria de **Luara Raggio**
 > como parte de um estudo aprofundado sobre design patterns e arquitetura de software em C++98
-> O objetivo é demonstrar como princípios clássicos como *abstração*, *baixo acoplamento* e *responsabilidade única* se traduzem em implementações reais e escaláveis
+> O objetivo é demonstrar como princípios clássicos como *abstração*, *baixo acoplamento* e *responsabilidade única* se traduzem em implementações reais e escaláveis.
