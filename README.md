@@ -154,3 +154,34 @@ Porque além de ser a segunda linguagem que estou aprendendo na minha formação
 
 In this project, I implemented a generic logging system in C++98, designed with strong Object-Oriented Programming principles and classic Design Patterns.
 The goal is to provide an extensible, modular, and safe foundation for log handling in single-threaded applications.
+
+---
+
+## Motivation 
+
+In short, robust systems depend on visibility. A well-designed logger isn’t just a debugging tool, 'cause it’s an observability layer that tracks an application’s lifecycle without coupling logging logic to business logic. This logger was built around three core software design principles:
+
+- Interface (abstraction via pure virtual class) — defines the contract for log event handling.
+- Singleton Pattern — ensures a single global access point to the logger.
+- Strategy Pattern — allows flexible output strategies (e.g., console, file, syslog).
+
+---
+
+## Architecture
+
+### Conceptual Diagram
+
+```
+Application
+      │
+      ▼
+Logger (Singleton)
+      │
+      ▼
+LogHandler (Interface)
+      │
+┌─────┴───────────┐
+▼                 ▼
+ConsoleHandler  FileHandler
+```
+
