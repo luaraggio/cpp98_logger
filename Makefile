@@ -24,8 +24,7 @@ all:		$(NAME)
 			@echo "$(RED)$(NAME) is ready!$(RESET)"
 
 $(NAME):	$(OBJS)
-			ar -rcs webserv.a $(OBJS)
-			@$(CC) $(C_FLAGS) main.cpp webserv.a -o $(NAME)
+			@$(CC) $(C_FLAGS) $(OBJS) -o $(NAME)
 
 clean:
 			@rm -f $(OBJS)
