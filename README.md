@@ -1,4 +1,11 @@
-# Logger em C++98 — Interface, Singleton e Strategy Pattern
+# Logger C++98
+
+**Read this in other languages:**
+🌐 [English](#english) | 🇧🇷 [Português](#português)
+
+## português
+
+# Logger C++98 — Interface, Singleton e Strategy Pattern
 
 Neste projeto, implementei um **sistema de logging genérico** em **C++98**, projetado com princípios sólidos de **Programação Orientada a Objetos** e padrões de projeto (**Design Patterns**). O objetivo é oferecer uma base extensível, modular e segura para emissão de logs em aplicações single-threaded.
 
@@ -142,3 +149,8 @@ Porque além de ser a segunda linguagem que estou aprendendo na minha formação
 > Esse logger foi projetado e implementado sob autoria de **Luara Raggio**
 > como parte de um estudo aprofundado sobre design patterns e arquitetura de software em C++98
 > O objetivo é demonstrar como princípios clássicos como *abstração*, *baixo acoplamento* e *responsabilidade única* se traduzem em implementações reais e escaláveis.
+
+## english
+
+In this project, I implemented a generic logging system in C++98, designed with strong Object-Oriented Programming principles and classic Design Patterns.
+The goal is to provide an extensible, modular, and safe foundation for log handling in single-threaded applications.
