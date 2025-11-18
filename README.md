@@ -15,12 +15,13 @@ Neste projeto, implementei um **sistema de logging genérico** em **C++98**, pro
 
 Resumidamente, sistemas robustos dependem de visibilidade. Um **logger bem projetado** não é apenas uma ferramenta de debug, porque também é uma **camada de observabilidade** que acompanha o ciclo de vida da aplicação, sem acoplar a lógica de logging à lógica de negócio.
 
-Para isso, o logger que fiz aplica três pilares do design de software:
+Para isso, o logger que fiz aplica três pilares conceituais dentro de de software:
 
-- **Interface (abstração via classe pura)** — define o contrato para tratamento de eventos de log.  
-- **Singleton Pattern** — garante um ponto único de acesso ao logger.  
-- **Strategy Pattern** — permite definir diferentes estratégias de saída (ex: console, arquivo, syslog).
+- **Interface (abstração via método virtual puro)** — define o contrato para tratamento de eventos de log.  
+- **Design Patttern Singleton** — garante um ponto único de acesso ao logger.  
+- **Design Pattern Strategy** — permite definir diferentes estratégias de saída (ex: console, arquivo, syslog).
 
+- Esses design patterns utilizados foram implementados a partir de interfaces como recurso construtivo.
 ---
 
 ## Arquitetura
