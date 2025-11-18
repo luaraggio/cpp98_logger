@@ -22,7 +22,6 @@ Para isso, o logger que fiz aplica três pilares conceituais dentro de de softwa
 - **Design Pattern Strategy** — permite definir diferentes estratégias de saída (ex: console, arquivo, syslog).
 
 Esses design patterns utilizados foram implementados a partir de interfaces como recurso construtivo.
----
 
 ## Arquitetura
 
@@ -191,7 +190,6 @@ In short, robust systems depend on visibility. A well-designed logger isn’t ju
 - Strategy Design Pattern — allows defining different output strategies (e.g., console, file, syslog).
 
 These two design patterns were implemented using interfaces as the main structural resource.
----
 
 ## Architecture
 
