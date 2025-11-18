@@ -21,7 +21,7 @@ Para isso, o logger que fiz aplica três pilares conceituais dentro de de softwa
 - **Design Patttern Singleton** — garante um ponto único de acesso ao logger.  
 - **Design Pattern Strategy** — permite definir diferentes estratégias de saída (ex: console, arquivo, syslog).
 
-- Esses design patterns utilizados foram implementados a partir de interfaces como recurso construtivo.
+Esses design patterns utilizados foram implementados a partir de interfaces como recurso construtivo.
 ---
 
 ## Arquitetura
@@ -48,7 +48,7 @@ ConsoleHandler  FileHandler
    - `ConsoleHandler` → escreve no `std::cout`
    - `FileHandler` → grava logs em um arquivo
 
-## ⚙️ Design Patterns Utilizados
+## ⚙️ Conceitos-chave Utilizados
 
 ### 1. Interface (Abstração)
 A classe `LogHandler` define o *contrato* de consumo de logs:
@@ -65,7 +65,7 @@ public:
 
 - Isso separa o “o que fazer” do “como fazer”, permitindo que o logger seja totalmente desacoplado da forma de saída.
 
-### 2. Singleton Pattern
+### 2. Singleton Design Pattern
 O Logger é acessível por toda a aplicação, mas só pode haver uma instância:
 ```cpp
 class Logger {
@@ -81,7 +81,7 @@ public:
 
 - Isso garante um ponto global de acesso e consistência entre módulos.
 
-### 3. Strategy Pattern
+### 3. Strategy Design Pattern
 Ao receber um evento, o Logger delega o processamento para a estratégia configurada:
 ```cpp
 t_event event = { DEBUG, "Initialization complete" };
@@ -118,7 +118,7 @@ int main() {
 }
 ```
 
-### Extensibilidade
+### Extensibilidade e Escalabilidade
 Para criar uma nova estratégia de log, basta implementar a interface LogHandler:
 ```cpp
 class FileHandler : public LogHandler {
@@ -160,12 +160,13 @@ The goal is to provide an extensible, modular, and safe foundation for log handl
 
 ## Motivation 
 
-In short, robust systems depend on visibility. A well-designed logger isn’t just a debugging tool, 'cause it’s an observability layer that tracks an application’s lifecycle without coupling logging logic to business logic. This logger was built around three core software design principles:
+In short, robust systems depend on visibility. A well-designed logger isn’t just a debugging tool, 'cause it’s an observability layer that tracks an application’s lifecycle without coupling logging logic to business logic. To achieve this, the logger I built applies three conceptual pillars within software development:
 
-- Interface (abstraction via pure virtual class) — defines the contract for log event handling.
-- Singleton Pattern — ensures a single global access point to the logger.
-- Strategy Pattern — allows flexible output strategies (e.g., console, file, syslog).
+- Interface (abstraction via pure virtual methods) — defines the contract for handling log events.
+- Singleton Design Pattern — ensures a single point of access to the logger.
+- Strategy Design Pattern — allows defining different output strategies (e.g., console, file, syslog).
 
+These two design patterns were implemented using interfaces as the main structural resource.
 ---
 
 ## Architecture
@@ -186,3 +187,111 @@ LogHandler (Interface)
 ConsoleHandler  FileHandler
 ```
 
+1. **Logger** is the global entry point. It filters messages based on `LogLevel` and delegates processing to a `LogHandler`. 
+2. **LogHandler** is an abstract interface (a class with pure virtual methods) that defines how log events should be handled.
+3. Concrete classes implement `LogHandler` to define different output strategies. For example:
+   - `ConsoleHandler` → writes to `std::cout`
+   - `FileHandler` → writes logs to a file
+  
+## ⚙️ **Key Concepts Used**
+
+### 1. Interface (Abstraction)
+The `LogHandler` class defines the contract for log consumption:
+```cpp
+class LogHandler {
+public:
+	virtual ~LogHandler() {}
+	virtual void handleDebug(t_event event) = 0;
+	virtual void handleInfo(t_event event) = 0;
+	virtual void handleWarning(t_event event) = 0;
+	virtual void handleError(t_event event) = 0;
+};
+```
+
+- This separates “what to do” from “how to do it,” allowing the logger to remain fully decoupled from the output mechanism.
+
+### 2. Singleton Design Pattern
+The Logger is accessible throughout the entire application, but only a single instance can exist:
+```cpp
+class Logger {
+private:
+	static Logger* _instance;
+	Logger(LogLevel level, LogHandler* handler);
+public:
+	static int initializeLogger(LogLevel level, LogHandler* handler);
+	static void debug(std::string message);
+	// ...
+};
+```
+
+- This ensures a global access point and consistency across modules.
+
+### 3. Strategy Design Pattern
+When an event is received, the Logger delegates the processing to the configured strategy:
+```cpp
+t_event event = { DEBUG, "Initialization complete" };
+_instance->_handler->handleDebug(event);
+```
+
+- This allows the logger’s behavior to change at runtime without modifying its core code.
+
+### Exemplo de uso que está na própria main.cpp
+```cpp
+class ConsoleHandler : public LogHandler {
+public:
+	void handleDebug(t_event e) { std::cout << "[DEBUG] " << e.message << std::endl; }
+	void handleInfo(t_event e) { std::cout << "[INFO] " << e.message << std::endl; }
+	void handleWarning(t_event e) { std::cout << "[WARNING] " << e.message << std::endl; }
+	void handleError(t_event e) { std::cerr << "[ERROR] " << e.message << std::endl; }
+};
+```
+
+```csharp
+Saída:
+[INFO] Application started.
+[ERROR] Unexpected condition.
+```
+
+```cpp
+int main() {
+	ConsoleHandler console;
+	Logger::initializeLogger(INFO, &console);
+
+	Logger::info("Application started.");
+	Logger::debug("This debug will not appear.");
+	Logger::error("Unexpected condition.");
+}
+```
+
+### Extensibility and Scalability
+To create a new logging strategy, simply implement the `LogHandler` interface:
+```cpp
+class FileHandler : public LogHandler {
+	std::ofstream file;
+public:
+	FileHandler() : file("app.log", std::ios::app) {}
+	void handleInfo(t_event e) { file << "[INFO] " << e.message << std::endl; }
+	// ...
+};
+```
+
+Important Observation: No changes are required in the Logger class, since its entire construction is modular and based on design patterns that delegate responsibilities. In other words, parts of the code may call the logger, but the logger itself never needs to be modified.
+
+### Why did I choose to build this in C++98?
+Because aside from being the second language I’m learning at 42Rio — after C — I thought it would be a great challenge to implement a logger under the constraints of the C++98 standard, with the purpose of deepening my understanding of:
+
+- Manual Singleton implementation (without std::unique_ptr or std::mutex)
+- Use of abstract classes and virtual dispatch
+- Decoupling through pure interfaces
+- Explicit application of the Strategy design pattern using interfaces
+
+### 📚 References
+
+- Design Patterns: Elements of Reusable Object-Oriented Software — Gamma et al. (GoF)
+- Effective C++ — Scott Meyers 
+- Documentação C++98 ISO/IEC 14882:1998(E)
+- The Linux Programming Interface
+
+> This logger was designed and implemented by Luara Raggio
+> as part of an in-depth study on design patterns and software architecture in C++98
+> The goal is to demonstrate how classical principles such as abstraction, low coupling, and single responsibility translate into real, scalable implementations.
