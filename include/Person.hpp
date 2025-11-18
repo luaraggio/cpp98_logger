@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Person.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lraggio <lraggio@student.42.rio>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/12 17:30:00 by lraggio           #+#    #+#             */
-/*   Updated: 2025/11/12 19:49:00 by lraggio          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef PERSON_HPP
 # define PERSON_HPP
 
@@ -17,13 +5,22 @@
 # include <sstream>
 # include "Logger.hpp"
 
+/**
+ * @file Person.hpp
+ * @brief Simple test class used to demonstrate logger integration.
+ *
+ * Person is a lightweight model containing a name and age. Its constructor and
+ * describe() method emit log messages to validate the behavior of the logger
+ * strategy in use.
+ */
+
 class Person
 {
-  private:
+private:
 	std::string _name;
 	int _age;
 
-  public:
+public:
 	Person(const std::string &name, int age);
 	void describe() const;
 };

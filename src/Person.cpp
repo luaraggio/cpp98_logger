@@ -1,16 +1,16 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Person.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lraggio <lraggio@student.42.rio>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/12 19:49:21 by lraggio           #+#    #+#             */
-/*   Updated: 2025/11/12 19:53:13 by lraggio          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/Person.hpp"
+
+/**
+ * @file Person.cpp
+ * @brief Implements the Person class used in logger tests.
+ *
+ * Constructor:
+ *  - Emits a log event indicating the creation of a new Person instance.
+ *
+ * describe():
+ *  - Builds a formatted string describing the person.
+ *  - Sends the message through Logger::info() for demonstration purposes.
+ */
 
 Person::Person(const std::string &name, int age)
 	: _name(name), _age(age)

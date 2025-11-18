@@ -1,16 +1,20 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   StdLogHandler.cpp                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lraggio <lraggio@student.42.rio>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 23:10:24 by lraggio           #+#    #+#             */
-/*   Updated: 2025/11/12 19:32:53 by lraggio          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../include/StdLogHandler.hpp"
+
+/**
+ * @file StdLogHandler.hpp
+ * @brief Declares a concrete LogHandler that outputs to standard output.
+ *
+ * StdLogHandler implements all methods of the LogHandler interface, printing
+ * log messages directly to stdout using std::cout.
+ *
+ * Format:
+ *  [LEVEL] message
+ *
+ * Example:
+ *  [INFO] Server started
+ *
+ * This class is commonly used for development, debugging and CLI-based logs.
+ */
 
 StdLogHandler::StdLogHandler() : LogHandler() {}
 

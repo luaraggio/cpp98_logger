@@ -1,19 +1,20 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Logger.cpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lraggio <lraggio@student.42.rio>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/10 17:07:18 by lraggio           #+#    #+#             */
-/*   Updated: 2025/11/12 19:56:18 by lraggio          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-// debug, info, error e warning emitem eventos,
-// logger filtra e strategy implementar
-
 #include "../include/Logger.hpp"
+
+/**
+ * @file Logger.cpp
+ * @brief Implements the Singleton Logger and its message dispatching logic.
+ *
+ * The Logger filters log messages based on severity and forwards them to the
+ * configured LogHandler. Each log level has its own dedicated dispatch method.
+ *
+ * The logger accepts one strategy at initialization and delegates every log
+ * event to the provided handler.
+ *
+ * Responsibilities:
+ *  - Enforce the Singleton instance
+ *  - Filter events using the configured LogLevel threshold
+ *  - Forward log events to the strategy object (LogHandler)
+ */
 
 Logger *Logger::_instance = NULL;
 
