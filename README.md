@@ -48,7 +48,7 @@ ConsoleHandler  FileHandler
    - `ConsoleHandler` → escreve no `std::cout`
    - `FileHandler` → grava logs em um arquivo
 
-## ⚙️ Conceitos-chave Utilizados
+## ⚙️ Conceitos-chave e como foram utilizados
 
 ### 1. Interface (Abstração)
 A classe `LogHandler` define o *contrato* de consumo de logs:
@@ -129,6 +129,30 @@ public:
 	// ...
 };
 ```
+## Escrevendo o log diretamente para um arquivo
+### FileLogHandler
+O `FileLogHandler` grava eventos de log em um arquivo. Ele é usado para persistência, auditoria e armazenamento de logs fora do console.
+
+- Principais características:
+* Abre e gerencia um stream de saída para arquivo
+* Escreve logs por nível de severidade
+* Lida com falhas de I/O de arquivo de forma segura
+* Funciona sozinho ou dentro de um `CompositeLogHandler`
+
+- Quando usar:
+* Quando os logs precisam persistir após a execução do programa
+* Quando a depuração via arquivos é preferida
+* Em ambientes de produção onde saída no console não é suficiente
+
+## Para lidar com múltiplos handlers (para formas diferentes de outputs)
+### CompositeLogHandler
+O `CompositeLogHandler` envia eventos simultaneamente para múltiplos handlers.
+
+- Principais características:
+* Armazena uma coleção de handlers
+* Encaminha cada evento para todos os handlers associados
+* Permite pipelines de log com múltiplos destinos
+* Implementa o padrão de projeto Composite
 
 Ponto de observação importantíssimo: Nenhuma alteração é necessária na classe Logger, já que toda a sua construção é modular e se baseia em design patterns que delegam funções. Em outras palavras, partes do código chamam podem chamar o logger, mas o logger não precisa ser alterado. 
 
@@ -235,7 +259,7 @@ _instance->_handler->handleDebug(event);
 
 - This allows the logger’s behavior to change at runtime without modifying its core code.
 
-### Exemplo de uso que está na própria main.cpp
+### Example in main.cpp
 ```cpp
 class ConsoleHandler : public LogHandler {
 public:
@@ -274,6 +298,31 @@ public:
 	// ...
 };
 ```
+
+## Writing log directly to a file
+### FileLogHandler
+The `FileLogHandler` writes log events to a file. It is used for persistence, auditing, and storing logs outside the console
+
+- Key Features:
+* Opens and manages an output file stream.
+* Writes logs by severity level.
+* Handles file I/O failures gracefully.
+* Works standalone or inside a CompositeLogHandler.
+
+- When to Use:
+* When logs must persist beyond program execution.
+* When debugging via files is preferred.
+* When operating in production environments where console output is not sufficient.
+
+## Dealing with multiple handlers and output forms
+### CompositeLogHandler
+The `CompositeLogHandler` broadcasts events to multiple handlers simultaneously
+
+- Key Features
+* Stores a collection of handlers.
+* Forwards every event to all attached handlers.
+* Enables multi-target logging pipelines.
+* Implements the Composite design pattern.
 
 Important Observation: No changes are required in the Logger class, since its entire construction is modular and based on design patterns that delegate responsibilities. In other words, parts of the code may call the logger, but the logger itself never needs to be modified.
 
